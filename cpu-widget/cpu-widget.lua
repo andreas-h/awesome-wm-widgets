@@ -8,8 +8,11 @@
 -- @copyright 2019 Pavel Makhov
 -------------------------------------------------
 
+local awful = require('awful')
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
+
+local MON_CONFIG_CMD = 'mate-system-monitor'
 
 local cpugraph_widget = wibox.widget {
     max_value = 100,
@@ -45,5 +48,12 @@ watch([[bash -c "cat /proc/stat | grep '^cpu '"]], 1,
     end,
     cpugraph_widget
 )
+
+cpu_widget:connect_signal("button::press", function(_, _, _, button)
+  if (button == 3) then
+    awful.spawn(MON_CONFIG_CMD, false)
+  end
+
+end)
 
 return cpu_widget

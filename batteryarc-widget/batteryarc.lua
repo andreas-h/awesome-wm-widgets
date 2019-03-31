@@ -16,6 +16,8 @@ local watch = require("awful.widget.watch")
 
 local HOME = os.getenv("HOME")
 
+local PWR_CONFIG_CMD = 'mate-power-preferences'
+
 local text = wibox.widget {
     id = "txt",
     font = "Play 6",
@@ -173,7 +175,7 @@ batteryarc:connect_signal("mouse::leave", function() naughty.destroy(notificatio
 --[[ Show warning notification ]]
 function show_battery_warning()
     naughty.notify {
-        icon = HOME .. "/.config/awesome/awesome-wm-widgets/batteryarc-widget/spaceman.jpg",
+        icon = HOME .. "/.config/awesome/_external/awesome-wm-widgets/batteryarc-widget/spaceman.jpg",
         icon_size = 100,
         text = "Battery is dying", -- switch text and title 
         title = "Huston, we have a problem",
@@ -185,5 +187,12 @@ function show_battery_warning()
         width = 300,
     }
 end
+
+batteryarc:connect_signal("button::press", function(_, _, _, button)
+  if (button == 3) then
+    awful.spawn(PWR_CONFIG_CMD, false)
+  end
+
+end)
 
 return batteryarc

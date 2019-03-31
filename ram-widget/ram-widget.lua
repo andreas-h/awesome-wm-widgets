@@ -10,6 +10,7 @@ local ramgraph_widget = wibox.widget {
     },
     display_labels = false,
     forced_width = 25,
+    forced_height = 25,
     widget = wibox.widget.piechart
 }
 

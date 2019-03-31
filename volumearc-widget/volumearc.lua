@@ -13,13 +13,15 @@ local beautiful = require("beautiful")
 local spawn = require("awful.spawn")
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
+local os = require("os")
 
 local GET_VOLUME_CMD = 'amixer -D pulse sget Master'
 local INC_VOLUME_CMD = 'amixer -D pulse sset Master 5%+'
 local DEC_VOLUME_CMD = 'amixer -D pulse sset Master 5%-'
 local TOG_VOLUME_CMD = 'amixer -D pulse sset Master toggle'
+local SND_CONFIG_CMD = 'mate-volume-control'
 
-local PATH_TO_ICON = "/usr/share/icons/Arc/status/symbolic/audio-volume-muted-symbolic.svg"
+local PATH_TO_ICON = os.getenv("HOME") .. "/.config/awesome/icons/audio-volume-muted-symbolic.svg"
 
 local icon = {
     id = "icon",
@@ -55,6 +57,7 @@ volumearc:connect_signal("button::press", function(_, _, _, button)
     if (button == 4) then awful.spawn(INC_VOLUME_CMD, false)
     elseif (button == 5) then awful.spawn(DEC_VOLUME_CMD, false)
     elseif (button == 1) then awful.spawn(TOG_VOLUME_CMD, false)
+    elseif (button == 3) then awful.spawn(SND_CONFIG_CMD, false)
     end
 
     spawn.easy_async(GET_VOLUME_CMD, function(stdout, stderr, exitreason, exitcode)
